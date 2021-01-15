@@ -50,7 +50,7 @@ class Pipeline extends cdk.Construct {
             owner: 'DmytroChymyrys',
             repo: 'nestjs-ecs-skeleton',
             branch: 'main',
-            oauthToken: cdk.SecretValue.plainText('c6762b47bf1e6345c63e7ef49287d47e98cd0987'),
+            oauthToken: cdk.SecretValue.plainText('4282c7824e14310991861202358eb6afd296a565'),
             trigger: codepipeline_actions.GitHubTrigger.POLL,
             output: output,
         });
