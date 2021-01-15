@@ -1,0 +1,37 @@
+{
+  "name": "test",
+  "version": "0.1.0",
+  "bin": {
+    "test": "bin/test.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "^1.84.0",
+    "@types/jest": "^24.9.1",
+    "aws-cdk": "^1.84.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.3.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-applicationautoscaling": "^1.84.0",
+    "@aws-cdk/aws-codebuild": "^1.84.0",
+    "@aws-cdk/aws-codedeploy": "^1.84.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.84.0",
+    "@aws-cdk/aws-dynamodb": "^1.84.0",
+    "@aws-cdk/aws-ecr": "^1.84.0",
+    "@aws-cdk/aws-ecs": "^1.84.0",
+    "@aws-cdk/aws-ecs-patterns": "^1.84.0",
+    "@aws-cdk/aws-secretsmanager": "^1.84.0",
+    "@aws-cdk/aws-ssm": "^1.84.0",
+    "@aws-cdk/core": "^1.84.0",
+    "cdk": "^1.84.0",
+    "source-map-support": "^0.5.19"
+  }
+}
