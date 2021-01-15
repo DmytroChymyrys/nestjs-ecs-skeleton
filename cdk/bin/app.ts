@@ -1,8 +1,3 @@
-#!/usr/bin/env node
-/**
- * AWS CDK script to provision the resources.
- */
-
 import 'source-map-support/register';
 import cdk = require('@aws-cdk/core');
 import { WebApp } from '../lib/webapp';
