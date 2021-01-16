@@ -17,7 +17,11 @@ class WebApp extends cdk.Construct {
 
     constructor(scope: cdk.Construct, id: string, props: WebAppProps) {
         super(scope, id);
-        this.ecrRepo = new ecr.Repository(this, 'ECRRepoNest');
+        this.ecrRepo = new ecr.Repository(this, 'ECRRepoNest', {
+            imageScanOnPush: true
+        });
+
+        this.ecrRepo.addLifecycleRule({ maxImageCount: 3 });
 
         this.fargateService = this.createService(props.cluster.ecsCluster);
         this.service = this.fargateService.service;
@@ -28,7 +32,7 @@ class WebApp extends cdk.Construct {
         this.output();
     }
 
-    private createService(cluster: ecs.Cluster) {
+    private createService(cluster: ecs.Cluster): ecsPatterns.ApplicationLoadBalancedFargateService {
         const region = cdk.Stack.of(this).region;
         const loadBalancedFargateService = new ecsPatterns.ApplicationLoadBalancedFargateService(this, 'ServiceForNest', {
             cluster: cluster,
@@ -53,7 +57,7 @@ class WebApp extends cdk.Construct {
         return loadBalancedFargateService;
     }
 
-    private addAutoScaling() {
+    private addAutoScaling(): void {
         const autoScalingGroup = this.fargateService.service.autoScaleTaskCount({
             minCapacity: 2,
             maxCapacity: 10
@@ -65,12 +69,12 @@ class WebApp extends cdk.Construct {
         });
     }
 
-    private grantPermissions() {
+    private grantPermissions(): void {
         const taskDefinition = this.fargateService.taskDefinition;
         this.ecrRepo.grantPull(taskDefinition.executionRole!);
     }
 
-    private output() {
+    private output(): void {
         new cdk.CfnOutput(this, 'ECRRepoURI', {value: this.ecrRepo.repositoryUri});
         new cdk.CfnOutput(this, 'ServiceName', {value: this.service.serviceName});
         new cdk.CfnOutput(this, 'ContainerName', {value: this.containerName});
