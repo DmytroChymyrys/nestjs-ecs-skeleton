@@ -2,8 +2,6 @@ import cdk = require('@aws-cdk/core');
 import codebuild = require('@aws-cdk/aws-codebuild');
 import codepipeline = require('@aws-cdk/aws-codepipeline');
 import codepipeline_actions = require('@aws-cdk/aws-codepipeline-actions');
-import ssm = require('@aws-cdk/aws-ssm');
-import * as secretsManager from '@aws-cdk/aws-secretsmanager';
 import ecr = require('@aws-cdk/aws-ecr');
 import ecs = require('@aws-cdk/aws-ecs');
 import { WebApp } from './webapp';
@@ -47,6 +45,7 @@ class Pipeline extends cdk.Construct {
     private createSourceStage(stageName: string, output: codepipeline.Artifact): codepipeline.StageProps {
         const githubAction = new codepipeline_actions.GitHubSourceAction({
             actionName: 'Github_Source_',
+            //TODO: Move these params to ssm params
             owner: 'DmytroChymyrys',
             repo: 'nestjs-ecs-skeleton',
             branch: 'main',

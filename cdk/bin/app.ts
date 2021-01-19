@@ -1,23 +1,20 @@
 import 'source-map-support/register';
 import cdk = require('@aws-cdk/core');
-import { WebApp } from '../lib/webapp';
-import { Pipeline } from '../lib/pipeline';
-import { Cluster } from '../lib/cluster';
-
-class WebStack extends cdk.Stack {
-    constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
-        super(scope, id, props);
-
-        const cluster = new Cluster(this, 'ClusterForNestApp');
-        const webapp = new WebApp(this, 'NestApp', {
-            cluster: cluster
-        });
-        const pipeline = new Pipeline(this, 'PipelineForNestApp', {
-            webapp: webapp
-        })
-    }
-}
+import { AppStack } from "../lib/stacks/app-stack";
+import { DevPipelineStack } from "../lib/stacks/dev-pipline-stack";
 
 const app = new cdk.App();
-new WebStack(app, 'MyMicroServiceStack');
+
+/************************** Dev Stacks resources start ******************************/
+
+const devDevAppStack = new AppStack(app, 'DevMicroServiceStack');
+cdk.Tags.of(devDevAppStack).add('environment', 'dev');
+
+const devPipelineStack = new DevPipelineStack(app, 'DevPipelineStack', {
+    webapp: devDevAppStack.webapp
+});
+cdk.Tags.of(devPipelineStack).add('environment', 'dev');
+
+/************************** Dev Stacks resources end ******************************/
+
 app.synth();
